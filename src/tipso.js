@@ -46,7 +46,9 @@
       templateEngineFunc: null,         //A function that compiles and renders the content
       onBeforeShow      : null,
       onShow            : null,
-      onHide            : null
+      onHide            : null,
+      ajaxPosData       : '',
+      ajaxType          : 'GET',
     };
 
   function Plugin(element, options) {
@@ -327,9 +329,14 @@
 		else 
 		{
 			obj._ajaxContent = content = $.ajax({
-			  type: "GET",
+			  type: obj.settings.ajaxType, /* GET or POST */
 			  url: obj.settings.ajaxContentUrl,
-			  async: false
+			  data:obj.settings.ajaxPostData, /* posted data example: _token=tokencode&id=3&kid=10 */	
+			  async: false,
+			  error: function(jqXHR, exception) {
+				  /**** do it when you get error */
+			  	/* console.log(jqXHR) */
+			  }
 			}).responseText;
 			if(obj.settings.ajaxContentBuffer > 0)
 			{
